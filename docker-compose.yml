@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my/php
+    container_name: app<number>
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app<number>-network
+      # - <your db network>
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver<number>
+    restart: unless-stopped
+    tty: true
+    ports:
+        - "<web port>:80"
+    volumes:
+        - ./:/var/www
+        - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+        - app<number>-network
+
+#Docker Networks
+networks:
+  app<number>-network:
+    driver: bridge
+  # <your db network>:
+  #   external: true
