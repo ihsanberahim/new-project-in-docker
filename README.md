@@ -4,7 +4,7 @@
 2. Edit 'docker-compose.yml'
     - replace `<number>` with your project number. Put `1` if this is your first time
     - replace `<web port>` with the port you want. Put `80` if you never run webserver
-3. Run the docker, `docker-compose up -d`
+3. Run the docker, `docker-compose -f "docker-compose.yml" up -d --build`
 
 
 ## Optional
