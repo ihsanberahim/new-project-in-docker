@@ -17,8 +17,12 @@ RUN apt-get update && apt-get install -y \
     git \
     curl
 
-# Install Extra tools
-RUN apt-get install -y telnet
+# Install Python
+RUN apt install python
+
+# Install Npm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+RUN nvm i stable
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -43,10 +47,12 @@ RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory contents
-COPY . /var/www
+# COPY . /var/www
 
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www
+# COPY --chown=www:www . /var/www
+
+RUN chown www:www -R /var/www
 
 # Change current user to www
 USER www
