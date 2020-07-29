@@ -17,12 +17,12 @@ RUN apt-get update && apt-get install -y \
     git \
     curl
 
-# Install Python
-RUN apt install python
+# Install Python (not work)
+# RUN apt install python
 
-# Install Npm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-RUN nvm i stable
+# Install Npm (not work)
+# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+# RUN nvm i stable
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
