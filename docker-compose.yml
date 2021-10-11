@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: my/php
-    container_name: app<number>
+    container_name: app<project-number>
     restart: unless-stopped
     tty: true
     environment:
@@ -17,27 +17,36 @@ services:
     volumes:
       - ./app:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./supervisor/app.conf:/etc/supervisor/conf.d/app.conf
+
     networks:
-      - app<number>-network
-      # - <your db network>
+      - app<project-number>-network
+      - mysql_app-network
+      - redis_app-network
+      - mailhog_app-network
 
   #Nginx Service
   webserver:
+    
     image: nginx:alpine
-    container_name: webserver<number>
+    container_name: webserver<project-number>
     restart: unless-stopped
     tty: true
     ports:
-        - "<web port>:80"
+        - "3006:80"
     volumes:
         - ./app:/var/www
         - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
-        - app<number>-network
+        - app<project-number>-network
 
 #Docker Networks
 networks:
-  app<number>-network:
+  app<project-number>-network:
     driver: bridge
-  # <your db network>:
-  #   external: true
+  mysql_app-network:
+    external: true
+  redis_app-network:
+    external: true
+  mailhog_app-network:
+    external: true
