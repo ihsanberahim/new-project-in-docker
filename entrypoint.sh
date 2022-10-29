@@ -8,4 +8,4 @@ find /var/www -type d -exec chmod 755 {} \;
 #chmod -R ug+rwx storage /var/www/bootstrap/cache;
 #service supervisor start
 
-php-fpm
+php-fpm;
